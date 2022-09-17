@@ -1,5 +1,6 @@
 
 import type { NextPage } from 'next';
+import { Octokit } from 'octokit';
 import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie} from 'cookies-next';
@@ -10,14 +11,36 @@ type CookieType={
     searches:string[];
 }
 const Search: NextPage = () => {
+
+    const octokit = new Octokit({
+      })
+      async function getData(username:string){
+        let data = await octokit.request('GET /users/'+username, {
+        })
+        console.log('data :>> ', data);
+        return data;
+      }
+      
     const [uname, setUname]=useState<string>("");
-    function handleChange(name:string){
-        setUname(name);
-    }
+    const [data, setData]=useState({});
     const router=useRouter();
     console.log('search :>> ', router.query);
     const cookie=getCookie('userCookies');
-    function handleClick(){
+    useEffect(()=>{
+
+        async function process(){
+            if(router.query?.search)
+                {
+                    console.log('here :>> ');
+                addCookie();
+                let data= await getData(uname);
+                console.log('dataa :>> ', data);
+                if(data)
+                setData(data)
+            }}
+            process();
+    },[router])
+    function addCookie(){
         if(cookie&&typeof(cookie)==="string")
         {
             let data = JSON.parse(cookie);
@@ -36,14 +59,10 @@ const Search: NextPage = () => {
             setCookie("userCookies",{searches:val})
         }
     }
-    console.log('cookie :>> ', cookie);
+    console.log('data :>> ', data);
   return (
-  <div className="flex flex-col">
+  <div className="flex flex">
     <Header/>
-   <TextField value={uname} onChange={(e)=>handleChange(e.currentTarget.value)}/>
-   <Button onClick={handleClick}>
-   search
-   </Button>
   </div>
 
   );
