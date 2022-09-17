@@ -145,6 +145,13 @@ const Search: NextPage = () => {
             })}</div>
             )
         }
+        <div>
+            {
+                !flag&&(
+                    <Typography>User Not Found</Typography>
+                )
+            }
+        </div>
     </div>
     
 
