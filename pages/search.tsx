@@ -19,10 +19,16 @@ type GithubData={
     login:string;
     bio?:string;
 }
+type RepoData={
+    name?:string;
+    private?:boolean;
+    url?:string;
+}
 const Search: NextPage = () => {
 
     const [flag,setFlag]=useState(true)
     const [data, setData]=useState<GithubData>();
+    const [repoData, setRepoData]=useState<RepoData[]>();
     const router=useRouter();
 
     //Fetch Github Data
@@ -34,7 +40,14 @@ const Search: NextPage = () => {
         console.log('data :>> ', data);
         return data;
       }
-
+      async function getRepoData(username:string){
+        let data= await axios.get(' https://api.github.com/users/'+username+'/repos').then((res)=>{
+            console.log('res.data :>> ', res.data);
+            return res.data
+        })
+        console.log('data :>> ', data);
+        return data;
+      }
     console.log('search :>> ', router.query);
     //
     const cookie=getCookie('userCookies');
@@ -51,7 +64,8 @@ const Search: NextPage = () => {
                     try
                     {
                         let data= await getData(router.query.search);
-                        console.log('dataa :>> ', data);
+                        let data2= await getRepoData(router.query.search);
+                        console.log('dataa :>> ', data2);
                         //set Data in state
                         if(data)
                         {
@@ -61,6 +75,7 @@ const Search: NextPage = () => {
                             else
                             {
                                 setData(data);
+                                setRepoData(data2)
                                 setFlag(true);
                             }
                         }
@@ -106,13 +121,34 @@ const Search: NextPage = () => {
                 {data.login&&<Typography>Username: {data.login}</Typography>}
                 {data.bio&&<Typography>Bio: {data.bio}</Typography>}
                 <Typography>Name: {data.name}</Typography>
-                
-                
+
             </div>
         )
+        
     }
-  </div>
+    <div>
+        {
+            repoData&&flag&&(
+            <div>
+                <Typography>Repos</Typography>
+                {repoData.map((object,index)=>{
+                return(
+                    <div>
+                    <Typography key={index}>
+                        {object.name}
+                    </Typography>
+                    <Typography>
+                        {object.url}
+                    </Typography>
+                    </div>
+                )
+            })}</div>
+            )
+        }
+    </div>
+    
 
+  </div>
   );
   
 };
