@@ -1,6 +1,6 @@
 
 import type { NextPage } from 'next';
-import { Octokit } from 'octokit';
+//import { Octokit } from 'octokit';
 import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie} from 'cookies-next';
@@ -18,7 +18,7 @@ const Search: NextPage = () => {
     const [flag,setFlag]=useState(true)
     const [data, setData]=useState<any>();
     const router=useRouter();
-    const octokit = new Octokit();
+   // const octokit = new Octokit();
 
     //Fetch Github Data
     async function getData(username:string){
