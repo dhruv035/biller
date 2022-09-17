@@ -22,10 +22,10 @@ const Search: NextPage = () => {
 
     //Fetch Github Data
     async function getData(username:string){
-        let data= await octokit.request('GET /users/'+username, {
-        })
+        //let data= await octokit.request('GET /users/'+username, {
+        //})
         console.log('data :>> ', data);
-        return data;
+        return 0;
       }
 
     console.log('search :>> ', router.query);
