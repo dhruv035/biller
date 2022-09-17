@@ -1,6 +1,6 @@
 
 import type { NextPage } from 'next';
-//import { Octokit } from 'octokit';
+import axios from "axios";
 import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie} from 'cookies-next';
@@ -13,19 +13,26 @@ type CookieType={
     searches:string[];
 }
 
+type GithubData={
+    name:string;
+    email?:string;
+    login:string;
+    bio?:string;
+}
 const Search: NextPage = () => {
 
     const [flag,setFlag]=useState(true)
-    const [data, setData]=useState<any>();
+    const [data, setData]=useState<GithubData>();
     const router=useRouter();
-   // const octokit = new Octokit();
 
     //Fetch Github Data
     async function getData(username:string){
-        //let data= await octokit.request('GET /users/'+username, {
-        //})
+        let data= await axios.get(' https://api.github.com/users/'+username).then((res)=>{
+            console.log('res.data :>> ', res.data);
+            return res.data
+        })
         console.log('data :>> ', data);
-        return 0;
+        return data;
       }
 
     console.log('search :>> ', router.query);
@@ -47,8 +54,17 @@ const Search: NextPage = () => {
                         console.log('dataa :>> ', data);
                         //set Data in state
                         if(data)
-                        console.log('data :>> ', data);
-                    }
+                        {
+                            console.log('data.name :>> ', data.name);
+                            if(data.name===null)
+                            setFlag(false)
+                            else
+                            {
+                                setData(data);
+                                setFlag(true);
+                            }
+                        }
+                    }    
                         catch(e){
                             //API Error Handling
                             console.log('Error :>> ', e);
@@ -80,6 +96,7 @@ const Search: NextPage = () => {
     }
 
     console.log('data :>> ', data);
+    console.log('flag :>> ', flag);
   return (
   <div className="flex flex-col">
     <Header/>
