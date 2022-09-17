@@ -47,7 +47,7 @@ const Search: NextPage = () => {
                         console.log('dataa :>> ', data);
                         //set Data in state
                         if(data)
-                        setData(data.data)}
+                        console.log('data :>> ', data);
                         catch(e){
                             //API Error Handling
                             console.log('Error :>> ', e);
