@@ -40,7 +40,7 @@ export const MyTable=({onclick,data})=> {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell>
-              <Button variant="text" sx={{color:"#FF2",height:"48px",fontFamily:"Comic Sans MS",fontSize:"30px"}} onClick={()=>onclick("search")}>
+              <Button variant="text" sx={{color:"#FF2",height:"48px",fontFamily:"Comic Sans MS",fontSize:"30px"}} onClick={()=>onclick(row.search)}>
                  {row.search}
                 </Button>
               </TableCell>
