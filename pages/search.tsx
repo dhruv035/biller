@@ -12,16 +12,23 @@ import { useRouter } from 'next/router';
 type CookieType={
     searches:string[];
 }
+
+type GithubData={
+    name:string;
+    email?:string;
+    login:string;
+    bio?:string;
+}
 const Search: NextPage = () => {
 
     const [flag,setFlag]=useState(true)
-    const [data, setData]=useState({});
+    const [data, setData]=useState<GithubData>();
     const router=useRouter();
     const octokit = new Octokit();
 
     //Fetch Github Data
     async function getData(username:string){
-        let data = await octokit.request('GET /users/'+username, {
+        let data= await octokit.request('GET /users/'+username, {
         })
         console.log('data :>> ', data);
         return data;
@@ -46,7 +53,7 @@ const Search: NextPage = () => {
                         console.log('dataa :>> ', data);
                         //set Data in state
                         if(data)
-                        setData(data)}
+                        setData(data.data)}
                         catch(e){
                             //API Error Handling
                             console.log('e :>> ', e);
@@ -84,9 +91,9 @@ const Search: NextPage = () => {
     {
         data&&flag&&(
             <div>
-                {data.data?.login&&<Typography>Username: {data.data.login}</Typography>}
-                {data.data?.bio&&<Typography>Bio: {data.data.bio}</Typography>}
-                <Typography>Name: {data.data.name}</Typography>
+                {data.login&&<Typography>Username: {data.login}</Typography>}
+                {data.bio&&<Typography>Bio: {data.bio}</Typography>}
+                <Typography>Name: {data.name}</Typography>
                 
                 
             </div>
