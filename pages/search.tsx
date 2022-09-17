@@ -56,7 +56,7 @@ const Search: NextPage = () => {
                         setData(data.data)}
                         catch(e){
                             //API Error Handling
-                            console.log('e :>> ', e);
+                            console.log('Error :>> ', e);
                             setFlag(false)
                     }
             }}
@@ -88,7 +88,7 @@ const Search: NextPage = () => {
   return (
   <div className="flex flex-col">
     <Header/>
-    {
+    {/*
         data&&flag&&(
             <div>
                 {data.login&&<Typography>Username: {data.login}</Typography>}
@@ -97,7 +97,7 @@ const Search: NextPage = () => {
                 
                 
             </div>
-        )
+        )*/
     }
   </div>
 
