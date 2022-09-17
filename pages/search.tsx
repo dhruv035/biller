@@ -13,16 +13,10 @@ type CookieType={
     searches:string[];
 }
 
-type GithubData={
-    name:string;
-    email?:string;
-    login:string;
-    bio?:string;
-}
 const Search: NextPage = () => {
 
     const [flag,setFlag]=useState(true)
-    const [data, setData]=useState<GithubData>();
+    const [data, setData]=useState();
     const router=useRouter();
     const octokit = new Octokit();
 
