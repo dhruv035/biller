@@ -16,7 +16,7 @@ type CookieType={
 const Search: NextPage = () => {
 
     const [flag,setFlag]=useState(true)
-    const [data, setData]=useState();
+    const [data, setData]=useState<any>();
     const router=useRouter();
     const octokit = new Octokit();
 
@@ -82,7 +82,7 @@ const Search: NextPage = () => {
   return (
   <div className="flex flex-col">
     <Header/>
-    {/*
+    {
         data&&flag&&(
             <div>
                 {data.login&&<Typography>Username: {data.login}</Typography>}
@@ -91,7 +91,7 @@ const Search: NextPage = () => {
                 
                 
             </div>
-        )*/
+        )
     }
   </div>
 
