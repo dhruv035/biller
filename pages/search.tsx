@@ -21,7 +21,6 @@ const Search: NextPage = () => {
         return data;
       }
       
-    const [uname, setUname]=useState<string>("");
     const [data, setData]=useState({});
     const router=useRouter();
     console.log('search :>> ', router.query);
@@ -29,18 +28,22 @@ const Search: NextPage = () => {
     useEffect(()=>{
 
         async function process(){
-            if(router.query?.search)
+            if(router.query?.search&&typeof(router.query.search)==="string")
                 {
-                    console.log('here :>> ');
-                addCookie();
-                let data= await getData(uname);
+                    console.log('here :>> ',router.query.search);
+                addCookie(router.query.search);
+                try
+                {let data= await getData(router.query.search);
                 console.log('dataa :>> ', data);
                 if(data)
-                setData(data)
+                setData(data)}
+                catch(e){
+                    console.log('e :>> ', e);
+                }
             }}
             process();
     },[router])
-    function addCookie(){
+    function addCookie(uname:string){
         if(cookie&&typeof(cookie)==="string")
         {
             let data = JSON.parse(cookie);
