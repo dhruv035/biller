@@ -5,7 +5,7 @@ import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie} from 'cookies-next';
 import {Header} from '../components/Header';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 
 //Type for Cookies if Needed
@@ -14,7 +14,7 @@ type CookieType={
 }
 const Search: NextPage = () => {
 
-    
+    const [flag,setFlag]=useState(true)
     const [data, setData]=useState({});
     const router=useRouter();
     const octokit = new Octokit();
@@ -44,13 +44,13 @@ const Search: NextPage = () => {
                     {
                         let data= await getData(router.query.search);
                         console.log('dataa :>> ', data);
-                        
                         //set Data in state
                         if(data)
                         setData(data)}
                         catch(e){
                             //API Error Handling
                             console.log('e :>> ', e);
+                            setFlag(false)
                     }
             }}
             process();
@@ -79,8 +79,19 @@ const Search: NextPage = () => {
 
     console.log('data :>> ', data);
   return (
-  <div className="flex flex">
+  <div className="flex flex-col">
     <Header/>
+    {
+        data&&flag&&(
+            <div>
+                {data.data?.login&&<Typography>Username: {data.data.login}</Typography>}
+                {data.data?.bio&&<Typography>Bio: {data.data.bio}</Typography>}
+                <Typography>Name: {data.data.name}</Typography>
+                
+                
+            </div>
+        )
+    }
   </div>
 
   );
