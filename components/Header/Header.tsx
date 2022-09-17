@@ -4,9 +4,9 @@ import { Typography } from "@mui/material";
 
 export const Header = () => {
   return (
-    <div className="flex flex-row items-center bg-black ">
-      <div className="flex mx-5 mt-2 mb-4">
-      <Typography color={"#FFF"} fontSize={30}>Punks</Typography>
+    <div className="flex flex-row items-center bg-black">
+      <div className="flex mx-5 mt-2 mb-4 bg-black">
+      <Typography color={"#FF2"} fontSize={30}>Punks</Typography>
       </div>
       {/* <div className="text-xl text-main-gray-dark mr-8">
         <p>Settings</p>
