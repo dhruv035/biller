@@ -5,8 +5,10 @@ import styles from '../styles/Home.module.css'
 import { TextField,Button } from '@mui/material'
 import { useState } from 'react'
 export default function Home() {
+
   const [uname,setUname]= useState("");
   const router=useRouter();
+
   function handleClick(){
     router.push({
       pathname:"./search",
@@ -15,6 +17,7 @@ export default function Home() {
       }
   })
   }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -25,12 +28,12 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to Github Lookup
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          Get started by searching a username
+          
         </p>
 
         <div className={styles.grid}>

@@ -6,22 +6,30 @@ import { useRouter } from "next/router";
 export const Header = () => {
   const [uname,setUname]=useState("");
   const router = useRouter();
-  function handleClick(){
-    router.push({
+  function route(path){
+    if(path==="search"){
+      router.push({
       pathname:"./search",
       query:{
           "search":uname,
       }
-  })
+    })
+    }
+    else
+    router.push(path)
   }
   return (
     <div className="flex flex-row items-center bg-green-600 w-full">
       <div className="flex mx-5 mt-2 mb-4">
-      <Typography color={"#FF2"} fontSize={30}>Punks</Typography>
+      <Button variant="text" sx={{color:"#FF2",height:"48px",fontFamily:"Comic Sans MS",fontSize:"30px"}} onClick={()=>route('/')}>
+      Punks
+      </Button>
+      <Button variant="text" sx={{color:"black",height:"48px",fontFamily:"Comic Sans MS",fontSize:"20px"}} onClick={()=>route('/history')}>
+      History
+      </Button>
       </div>
       <div className="flex grow flex-row-reverse">
-      
-      <Button variant="text" sx={{color:"white",height:"48px",alignItems:"flex-end",fontFamily:"Comic Sans MS"}} onClick={handleClick}>
+      <Button variant="text" sx={{color:"white",height:"48px",alignItems:"flex-end",fontFamily:"Comic Sans MS"}} onClick={()=>route("search")}>
       search
       </Button>
       <TextField 
