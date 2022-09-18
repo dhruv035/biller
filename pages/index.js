@@ -17,7 +17,6 @@ export default function Home() {
       }
   })
   }
-
   return (
     <div className={styles.container}>
       <Head>
@@ -37,7 +36,7 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-        <TextField value={uname} onChange={(e)=>setUname(e.currentTarget.value)}></TextField>
+        <TextField value={uname} onChange={(e)=>setUname(e.currentTarget.value)} onKeyDown={(e)=>{if(key==="Enter")handleClick()}}></TextField>
         <Button onClick={handleClick}>search</Button>
           
         </div>

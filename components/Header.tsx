@@ -36,6 +36,7 @@ export const Header = () => {
       value={uname} 
       variant="filled"
       size="small"
+      onKeyDown={(e)=>{if(e.key==="Enter")route("search")}}
       sx={{maxWidth:"400px"}} 
       placeholder={"search"} 
       className="bg-green-600" 
