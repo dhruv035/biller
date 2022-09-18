@@ -19,7 +19,7 @@ export const Header = () => {
   }
   
   return (
-    <div className="flex flex-row items-center bg-gradient-to-r from-cyan-600 via-purple-500 to-pink-500 w-full">
+    <div className="flex flex-row z-10 fixed items-center bg-gradient-to-r from-cyan-600 via-purple-500 to-pink-500 w-full">
       <div className="flex mx-5 mt-2 mb-4">
         <Button 
         variant="text" 

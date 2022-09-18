@@ -93,12 +93,13 @@ const Search: NextPage = () => {
 
    
 return (
-   <div className="flex flex-col overflow-y-hidden">
+   <div  className="flex flex-col h-screen overflow-hidden">
       <Header/>
-      <div className="flex flex-col w-96 overflow-y-hidden">
+      <div className="flex flex-row  mt-16 overflow-hidden">
       {data&&flag&&(
-         <div className='flex flex-col overflow-y-hidden'>
-            <Card sx={{ maxWidth: 345 }}>
+         <div className='flex flex-col overflow-hidden'>
+            <div className='flex h-auto'>
+            <Card sx={{ maxWidth: 345, }}>
                <CardContent>
                   <div className='flex flex-col'>
                      <div className='flex flex-row'>
@@ -140,35 +141,28 @@ return (
                   </div>
                </CardContent>  
             </Card>
+            </div>
             {repoData&&flag&&(
-               <div className="flex flex-col">
+               <div className="flex flex-col h-screen overflow-auto">
                   <Typography variant="h6" component="div">Repos</Typography>
                   {repoData.map((object,index)=>{
                      return(
+                        <div className='flex flex-col'>
                         <Link href={object.html_url} underline="hover">
                         {object.name}
                       </Link>
+                      <Link href={object.html_url} underline="hover">
+                      {object.name}
+                    </Link>
+                    <Link href={object.html_url} underline="hover">
+                        {object.name}
+                      </Link>
+                      </div>
                      )
                   })}
                   </div>
                )
             }
-         </div>
-      )}
-      {repoData&&flag&&(
-         <div>
-            <Typography>Repos</Typography>
-            {repoData.map((object,index)=>{
-            return(
-               <div>
-                  <Typography key={index}>
-                     {object.name}
-                  </Typography>
-                  <Typography>
-                     {object.url}
-                  </Typography>
-               </div>
-               )})}
          </div>
       )}
       {!flag&&(<div><Typography>User Not Found</Typography></div>)}
