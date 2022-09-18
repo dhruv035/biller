@@ -98,8 +98,8 @@ return (
       <div className="flex flex-row  mt-16 overflow-hidden">
       {data&&flag&&(
          <div className='flex flex-col overflow-hidden'>
-            <div className='flex h-auto'>
-            <Card sx={{ maxWidth: 345, }}>
+            <div className='flex h-auto w-auto'>
+            <Card sx={{ maxWidth: 350}}>
                <CardContent>
                   <div className='flex flex-col'>
                      <div className='flex flex-row'>
@@ -109,41 +109,45 @@ return (
                         sx={{ width: 150, height: 150 }}
                         />
                         <div className="flex flex-col justify-center ml-3">
-                           <Typography variant="h5" component="div">
+                           <Typography className="mb-3"variant="h5" component="div">
                               {data.name}
                            </Typography>
-                           
-                           {data.twitter_username&&(   
-                              <div className="flex flex-row"> 
-                              <SvgIcon htmlColor="#1DA1F2">
-                                 <TwitterIcon/>
-                              </SvgIcon>
-                              <Typography gutterBottom variant="body2" component="div">
-                                 {"@"+data.twitter_username}
-                              </Typography>
-                           </div>
-                              )
-                           }
                            <div className="flex flex-row"> 
                               <SvgIcon>
                                  <GitHubIcon/>
                               </SvgIcon>
-                              <Typography gutterBottom variant="body2" component="div">
-                                 {"@"+data.login}
+                              <Typography className="ml-1" gutterBottom variant="body1" component="div">
+                                 {data.login}
                               </Typography>
                            </div>
+                           {data.twitter_username&&(   
+                              <div className="flex flex-row"> 
+                              <SvgIcon htmlColor="#1DA1F2">
+                                 <TwitterIcon/>
+                              </SvgIcon>@
+                              <Link href={"https://twitter.com/"+data.twitter_username} underline="hover">
+                                 {data.twitter_username}
+                              </Link>
+                           </div>
+                              )
+                           }
+                           
                         </div>
                      </div>
-                     {data.bio&&(<div><Typography variant="h5" component="div">About</Typography>
-                     <Typography variant="body2" color="text.secondary">
-                        {data.bio}
-                     </Typography></div>)}
+                     {data.bio&&(
+                     <div className="ml-4 mt-3">
+                        <Typography variant="h5" component="div">About</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                           {data.bio}
+                        </Typography>
+                     </div>
+                     )}
                   </div>
                </CardContent>  
             </Card>
             </div>
             {repoData&&flag&&(
-               <div className="flex flex-col h-screen overflow-auto">
+               <div className="flex flex-col ml-5 h-screen overflow-auto">
                   <Typography variant="h6" component="div">Repos</Typography>
                   {repoData.map((object,index)=>{
                      return(
