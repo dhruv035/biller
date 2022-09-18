@@ -148,15 +148,9 @@ return (
                   {repoData.map((object,index)=>{
                      return(
                         <div className='flex flex-col'>
-                        <Link href={object.html_url} underline="hover">
-                        {object.name}
-                      </Link>
-                      <Link href={object.html_url} underline="hover">
-                      {object.name}
-                    </Link>
-                    <Link href={object.html_url} underline="hover">
-                        {object.name}
-                      </Link>
+                           <Link href={object.html_url} underline="hover">
+                              {object.name}
+                           </Link>
                       </div>
                      )
                   })}
