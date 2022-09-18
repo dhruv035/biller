@@ -3,9 +3,11 @@ import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie} from 'cookies-next';
 import {Header} from '../components/Header';
-import { Typography } from '@mui/material';
+import { Typography,Card,CardContent,Link, Avatar, SvgIcon } from '@mui/material';
 import { useRouter } from 'next/router';
 import {getUserData, getUserRepoData} from '../services/searchUser';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import TwitterIcon from '@mui/icons-material/Twitter';
 //Type for Cookies if Needed
 type CookieType={
    searches:string[];
@@ -16,11 +18,14 @@ type GithubData={
    email?:string;
    login:string;
    bio?:string;
+   avatar_url?:string;
+   twitter_username?:string;
 }
 type RepoData={
    name?:string;
    private?:boolean;
    url?:string;
+   html_url?:string;
 }
 const Search: NextPage = () => {
 
@@ -88,16 +93,68 @@ const Search: NextPage = () => {
 
    
 return (
-   <div className="flex flex-col">
+   <div className="flex flex-col overflow-y-hidden">
       <Header/>
+      <div className="flex flex-col w-96 overflow-y-hidden">
       {data&&flag&&(
-         <div>
-            {data.login&&<Typography>Username: {data.login}</Typography>}
-            {data.bio&&<Typography>Bio: {data.bio}</Typography>}
-            <Typography>Name: {data.name}</Typography>
+         <div className='flex flex-col overflow-y-hidden'>
+            <Card sx={{ maxWidth: 345 }}>
+               <CardContent>
+                  <div className='flex flex-col'>
+                     <div className='flex flex-row'>
+                        <Avatar
+                        alt="Remy Sharp"
+                        src={data.avatar_url}
+                        sx={{ width: 150, height: 150 }}
+                        />
+                        <div className="flex flex-col justify-center ml-3">
+                           <Typography variant="h5" component="div">
+                              {data.name}
+                           </Typography>
+                           
+                           {data.twitter_username&&(   
+                              <div className="flex flex-row"> 
+                              <SvgIcon htmlColor="#1DA1F2">
+                                 <TwitterIcon/>
+                              </SvgIcon>
+                              <Typography gutterBottom variant="body2" component="div">
+                                 {"@"+data.twitter_username}
+                              </Typography>
+                           </div>
+                              )
+                           }
+                           <div className="flex flex-row"> 
+                              <SvgIcon>
+                                 <GitHubIcon/>
+                              </SvgIcon>
+                              <Typography gutterBottom variant="body2" component="div">
+                                 {"@"+data.login}
+                              </Typography>
+                           </div>
+                        </div>
+                     </div>
+                     {data.bio&&(<div><Typography variant="h5" component="div">About</Typography>
+                     <Typography variant="body2" color="text.secondary">
+                        {data.bio}
+                     </Typography></div>)}
+                  </div>
+               </CardContent>  
+            </Card>
+            {repoData&&flag&&(
+               <div className="flex flex-col">
+                  <Typography variant="h6" component="div">Repos</Typography>
+                  {repoData.map((object,index)=>{
+                     return(
+                        <Link href={object.html_url} underline="hover">
+                        {object.name}
+                      </Link>
+                     )
+                  })}
+                  </div>
+               )
+            }
          </div>
       )}
-
       {repoData&&flag&&(
          <div>
             <Typography>Repos</Typography>
@@ -114,8 +171,8 @@ return (
                )})}
          </div>
       )}
-      <div>{!flag&&(<Typography>User Not Found</Typography>)}</div>
-      
+      {!flag&&(<div><Typography>User Not Found</Typography></div>)}
+      </div>
    </div>
    );
 };

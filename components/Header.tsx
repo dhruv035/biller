@@ -14,11 +14,12 @@ export const Header = () => {
           "search":uname,
       }
     })
+    setUname("")
     } else router.push(path);
   }
   
   return (
-    <div className="flex flex-row items-center bg-green-600 w-full">
+    <div className="flex flex-row items-center bg-gradient-to-r from-cyan-600 via-purple-500 to-pink-500 w-full">
       <div className="flex mx-5 mt-2 mb-4">
         <Button 
         variant="text" 
@@ -55,7 +56,7 @@ export const Header = () => {
         }}
         onClick={()=>route("search")}
         >
-        search
+        Search
         </Button>
         <TextField 
         value={uname} 
@@ -63,8 +64,8 @@ export const Header = () => {
         size="small"
         onKeyDown={(e)=>{if(e.key==="Enter")route("search")}}
         sx={{maxWidth:"400px"}} 
-        placeholder={"search"} 
-        className="bg-green-600" 
+        placeholder={"Search..."} 
+        className="bg-gradient-to-r from-purple-400 via-pink-600 to-pink-500" 
         onChange={(e)=>setUname(e.currentTarget.value)}
         inputProps={{padding:"20px 20px"}}
         />

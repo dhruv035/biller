@@ -26,33 +26,43 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+      <img
+      src="/github.png"
+      alt="Girl in a jacket"
+      width="400"
+      height="600"
+      />
         <h1 className={styles.title}>
           Welcome to Github Lookup
         </h1>
-
         <p className={styles.description}>
           Get started by searching a username
-          
         </p>
-
         <div className={styles.grid}>
-        <TextField value={uname} onChange={(e)=>setUname(e.currentTarget.value)} onKeyDown={(e)=>{if(e.key==="Enter")handleClick()}}></TextField>
-        <Button onClick={handleClick}>search</Button>
-          
+        <TextField 
+        className='bg-blue-200'
+        value={uname}
+        placeholder="Search..."
+        onChange={(e)=>setUname(e.currentTarget.value)}
+        onKeyDown={(e)=>{if(e.key==="Enter")handleClick()}}
+        />
+        <Button  
+        sx={{
+          color:"white",
+          height:"48px",
+          alignItems:"flex-end",
+          fontFamily:"Sofia"
+        }}
+        onClick={handleClick}
+        >
+        Search...
+        </Button>
         </div>
       </main>
-
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+      <p className="color-blue-200">
+          Get started by searching a username
+        </p>
       </footer>
     </div>
   )

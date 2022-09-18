@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Sofia:regular,bold,italic&subset=latin,latin-ext');
 .container {
   padding: 0 2rem;
+  background-color: #111;
 }
 
 .main {
@@ -43,6 +45,8 @@
   margin: 0;
   line-height: 1.15;
   font-size: 4rem;
+  font-family: Sofia;
+  color: aqua;
 }
 
 .title,
@@ -51,7 +55,7 @@
 }
 
 .description {
-  margin: 4rem 0;
+  margin: 1rem 0;
   line-height: 1.5;
   font-size: 1.5rem;
 }
@@ -70,6 +74,7 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  
   max-width: 800px;
 }
 
