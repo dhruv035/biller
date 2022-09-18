@@ -1,11 +1,9 @@
 
 import type { NextPage } from 'next';
-import axios from "axios";
-import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie} from 'cookies-next';
 import {Header} from '../components/Header';
-import { TextField, Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import {getUserData, getUserRepoData} from '../services/searchUser';
 //Type for Cookies if Needed
