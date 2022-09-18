@@ -31,108 +31,95 @@ const Search: NextPage = () => {
    const [repoData, setRepoData]=useState<RepoData[]>();
    const router=useRouter();
    const cookie=getCookie('userCookies');
-   
+
+   //logs
+   console.log('data :>> ', data);
+   console.log('flag :>> ', flag);
    console.log('search :>> ', router.query);
+
    useEffect(()=>{
       //write async function to run in the hook
       async function process(){
-            //check if null
-            if(router.query?.search&&typeof(router.query.search)==="string")
-               {
-                  console.log('here :>> ',router.query.search);
-                  //add search to Cookies
-                  addCookie(router.query.search);
-                  try
+         //check if null
+         if(router.query?.search&&typeof(router.query.search)==="string"){
+            console.log('here :>> ',router.query.search);
+            //add search to Cookies
+            addCookie(router.query.search);
+            
+            try{
+               let data= await getUserData(router.query.search);
+               let data2= await getUserRepoData(router.query.search);
+               console.log('dataa :>> ', data2);
+               //set Data in state
+               if(data){
+                  console.log('data.name :>> ', data.name);
+                  if(data.name===null)
+                  setFlag(false)
+                  else
                   {
-                     let data= await getUserData(router.query.search);
-                     let data2= await getUserRepoData(router.query.search);
-                     console.log('dataa :>> ', data2);
-                     //set Data in state
-                     if(data)
-                     {
-                        console.log('data.name :>> ', data.name);
-                        if(data.name===null)
-                        setFlag(false)
-                        else
-                        {
-                           setData(data);
-                           setRepoData(data2)
-                           setFlag(true);
-                        }
-                     }
-                  }    
-                     catch(e){
-                        //API Error Handling
-                        console.log('Error :>> ', e);
-                        setFlag(false)
-                  }
-            }}
-            //function Call
-            process();
+                     setData(data);
+                     setRepoData(data2)
+                     setFlag(true);
+               }}
+            } catch(e){
+               //API Error Handling
+               console.log('Error :>> ', e);
+               setFlag(false);
+      }}}
+      //function Call
+      process();
    },[router])
 
    function addCookie(uname:string){
-      if(cookie&&typeof(cookie)==="string")
-      {
+      if(cookie&&typeof(cookie)==="string"){
          let data = JSON.parse(cookie);
          data.searches?.push({
             search:uname,
             timestamp:Math.floor(Date.now()/1000)
          })
          setCookie("userCookies",data);
-      }
-      else{
+      } else{
          let val=[];
          val.push({
             search:uname,
             timestamp:Math.floor(Date.now()/1000)
          });
-         setCookie("userCookies",{searches:val})
+         setCookie("userCookies",{searches:val});
       }
-   }
+   };
 
-   console.log('data :>> ', data);
-   console.log('flag :>> ', flag);
+   
 return (
-<div className="flex flex-col">
-   <Header/>
-   {
-      data&&flag&&(
+   <div className="flex flex-col">
+      <Header/>
+      {data&&flag&&(
          <div>
-         {data.login&&<Typography>Username: {data.login}</Typography>}
-         {data.bio&&<Typography>Bio: {data.bio}</Typography>}
-         <Typography>Name: {data.name}</Typography>
+            {data.login&&<Typography>Username: {data.login}</Typography>}
+            {data.bio&&<Typography>Bio: {data.bio}</Typography>}
+            <Typography>Name: {data.name}</Typography>
          </div>
       )}
-   <div>
+
       {repoData&&flag&&(
          <div>
-         <Typography>Repos</Typography>
-         {repoData.map((object,index)=>{
-         return(
-            <div>
-            <Typography key={index}>
-               {object.name}
-            </Typography>
-            <Typography>
-               {object.url}
-            </Typography>
-            </div>
-         )})}</div>
-         )
-      }
-      <div>
-         {!flag&&(
-               <Typography>User Not Found</Typography>
-            )
-         }
-      </div>
+            <Typography>Repos</Typography>
+            {repoData.map((object,index)=>{
+            return(
+               <div>
+                  <Typography key={index}>
+                     {object.name}
+                  </Typography>
+                  <Typography>
+                     {object.url}
+                  </Typography>
+               </div>
+               )})}
+         </div>
+      )}
+      <div>{!flag&&(<Typography>User Not Found</Typography>)}</div>
+      
    </div>
-   
-
-</div>
-);
-
+   );
 };
 
 export default Search;
