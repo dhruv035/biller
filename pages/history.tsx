@@ -74,14 +74,6 @@ function handleClick(search:string){
                sx={{ borderTop: 1 }}>
                {"Payment Method : "+object.pmode}
                </Typography>
-               <div className="flex flex-row-reverse w-full">
-               <Button onClick={()=>moveCookie(index)}>
-                  Mark as Served
-               </Button>
-               <Button onClick={()=>removeCookie(index)}>
-                  Delete Order
-               </Button>
-               </div>
             </AccordionDetails>
          </Accordion>)
     }))
