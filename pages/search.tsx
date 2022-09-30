@@ -3,12 +3,13 @@ import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie,deleteCookie, setCookies, CookieValueTypes} from 'cookies-next';
 import {Header} from '../components/Header';
-import { Typography, Button,Select, MenuItem, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Typography, Button,Select, MenuItem, Accordion, AccordionSummary, AccordionDetails, IconButton } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useForm } from "react-hook-form";
 import foodMenu from "./foodMenu.json";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {Download} from "../components/Excel";
+import CloseIcon from '@mui/icons-material/Close';
 //Type for Cookies if Needed
 
 import ReactExport from "react-export-excel";
@@ -83,9 +84,6 @@ const Search: NextPage = () => {
    const [middleG,setMiddleG]=useState(0);
    const [middleC,setMiddleC]=useState(0);
    //logs
-   console.log('cookie :>> ', cookie&&typeof(cookie)==="string"&&JSON.parse(cookie));
-   console.log('fCookie :>> ', fCookie&&typeof(fCookie)==="string"&&JSON.parse(fCookie));
-   console.log('dCookie :>> ', dCookie&&typeof(dCookie)==="string"&&JSON.parse(dCookie));
    const [data,setData]=useState<any>();
    const [fData,setFData]=useState<any>();
    const [dData,setDData]=useState();
@@ -100,31 +98,30 @@ const Search: NextPage = () => {
       setUpd(upd+1);
    }
    //resetCookies();
-   console.log('dataRefresh :>> ', data);
    useEffect(()=>{
       if(!nCookie)
          {
             setCookie("Id",1)
          }
    },[nCookie])
-   console.log('nCookie@ :>> ', nCookie);
+
    
    useEffect(()=>{
       let aG=0;
       let aC=0;
-      console.log("FIRING");
+
       const a = typeof(cookie)==="string"&& JSON.parse(cookie);
       const b = typeof(fCookie)==="string"&& JSON.parse(fCookie);
       const c = typeof(dCookie)==="string"&& JSON.parse(dCookie);
       const d = typeof(nCookie)==="string"&& JSON.parse(nCookie);
       
-      {setData(a);console.log('a :>> ', a);}
+      {setData(a);}
    
-      {setFData(b);console.log('b :>> ', b);}
+      {setFData(b);}
       
-      {setDData(c);console.log('c :>> ', c);}
+      {setDData(c);}
       
-      {setNData(d);console.log('d :>> ', d);}
+      {setNData(d);}
       if(b)
       {
          b.forEach((object)=>{
@@ -151,14 +148,11 @@ const Search: NextPage = () => {
       }
       setMiddleC(t2);
       setMiddleG(t1);
-   },[cookie,fCookie,dCookie,nCookie,upd])
-   console.log('aC,aG :>> ', amountC,amountG);
+   },[cookie,fCookie,dCookie,nCookie,upd,billItems])
    async function addCookie(cookieName:string,tCookie:any,bill:BillData){
-     console.log('bill :>> ', bill);
      let xdata:BillData[]=[];
       if(tCookie&&typeof(tCookie)==="string"){
          xdata = JSON.parse(tCookie);
-         console.log('data :>> ',xdata);
          xdata.push(bill);
          setCookie(cookieName,xdata);
          setOrder(undefined);
@@ -178,7 +172,6 @@ const Search: NextPage = () => {
    };
    
     const addItem = () => {
-      console.log('mode :>> ', mode);
       let temp=billItems;
       let newItem:ItemData={};
       let tempId=undefined;
@@ -189,7 +182,6 @@ const Search: NextPage = () => {
       temp.push(newItem);
       
       let amount=0;
-      console.log('temp :>> ', temp);
       
       temp.forEach(object=>{
          
@@ -198,9 +190,7 @@ const Search: NextPage = () => {
       if(nCookie&&typeof(nCookie)==="string")
       tempId=JSON.parse(nCookie);
    
-      console.log('tempId :>> ', tempId);
       setBillItems(temp);
-      console.log('modeItems :>> ', mode);
       setOrder({
          id:tempId,
          items:temp,
@@ -210,9 +200,9 @@ const Search: NextPage = () => {
       setItem(0);
       setBillAmount(amount);
     }
-    console.log('billAmount :>> ', billAmount);
+    
     const addOrder=()=>{
-      console.log('order :>> ', order);
+      
       let temp:BillData=order;
       let tempId=undefined;
       if(nCookie&&typeof(nCookie)==="string")
@@ -228,7 +218,7 @@ const Search: NextPage = () => {
       setUpd(upd+1);
       setBillAmount(0);
     }
-    console.log('mode :>> ', mode);
+
     const handleChangeItem=(e:any)=>{
       setItem(e.target.value)
     }
@@ -237,29 +227,21 @@ const Search: NextPage = () => {
     }
     const handleChangeMode=(e:any)=>{
       setMode(e.target.value)
-      console.log('mode :>> ', mode);
     }
-   cookie&&typeof(cookie)==="string"&&console.log('JSON.parse(cookie) :>> ', JSON.parse(cookie));
-   cookie&&typeof(cookie)==="string"&&console.log('JSON.parse(cookie) :>> ', JSON.parse(cookie));
+
     const removeCookie=(index:number)=>{
-      console.log('index :>> ', index);
-      console.log("object");
+
       let xdata:BillData[]=[];
       if(cookie&&typeof(cookie)==="string"){
-         console.log("object2");
           xdata=  JSON.parse(cookie);
-         console.log('data :>> ', xdata);
-         console.log(JSON.parse(cookie))
          let temp=xdata[index];
-         console.log('temp,data :>> ', temp,xdata);
-         let xlr8;
          if(index!=0)
-         xlr8=xdata.splice(index,1);
+         xdata.splice(index,1);
          else
-         xlr8=xdata.splice(1);
-         console.log('xlr8 :>> ', xlr8);
-         if(xlr8.length)
-         setCookie('billCookies',xlr8);
+         xdata.splice(1);
+         console.log('xdata :>> ', xdata);
+         if(xdata.length)
+         setCookie('billCookies',xdata);
          else
          deleteCookie('billCookies')
          temp.status="refunded"
@@ -274,16 +256,13 @@ const Search: NextPage = () => {
       let moveOrder:BillData={};
       let xdata:BillData[]=[];
       let temp;
-      console.log('index :>> ', index);
       if(cookie&&typeof(cookie)==="string"){
           xdata = JSON.parse(cookie);
-         console.log('data :>> ', xdata);
           moveOrder=xdata[index];
           if(index!=0)
           temp= xdata.splice(index,1);
           else
           temp=xdata.splice(1);
-          console.log('temp :>> ', temp);
           if(temp.length)
           setCookie('billCookies',temp);
           else
@@ -314,6 +293,18 @@ const Search: NextPage = () => {
       setCookie("Deleted",newData);
       setUpd(upd+1);
       }
+   }
+   const removeItem = (index:number,amount:number)=>{
+      console.log('billItems :>> ', billItems);
+     
+      console.log('index :>> ', index);
+      let temp=billItems;
+      console.log('temp :>> ', temp);
+         temp.splice(index,1)
+      console.log('temp :>> ', temp);
+         setBillAmount(billAmount-amount)
+         setBillItems(temp);
+         setUpd(upd+1);
    }
 return (
    <div  className="flex flex-col h-screen w-full overflow-hidden">
@@ -395,13 +386,20 @@ return (
          </div>
        <Typography fontSize={20} className="flex justify-center">Generate Invoice</Typography>
         
-         <div className='flex flex-col w-4/6 justify-start'>
+         <div className='flex flex-col w-4/6 justify-start p-3'>
             {
-               (billItems?.length>0)&&billItems.map(object=>{
+               (billItems?.length>0)&&billItems.map((object:ItemData,index:number)=>{
                   return(
-                     <Typography maxWidth={300}>
-                        {object.qty+ " X " + object.name}
+                     <div className='flex flex-row'>
+                     <Typography className="flex items-center" maxWidth={300}>
+                        {object.qty+ " * " + object.name}
                      </Typography>
+                     <IconButton className='flex flex-row-reverse w-1/6 '
+                     onClick={()=>removeItem(index,object.amount)}
+                     size="small">
+                        <CloseIcon/>
+                     </IconButton>
+                     </div>
                   )
                })
             }

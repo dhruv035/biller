@@ -1,8 +1,8 @@
 [
     {
-    "index":0,
-    "item":"Choose",
-    "price":0
+        "index":0,
+        "item":"Choose",
+        "price":0
     },
     {
         "index":1,
@@ -10,13 +10,34 @@
         "price":20
     },
      {
-    "index":2,
-    "item":"Coffee",
-    "price":50
+        "index":2,
+        "item":"Coffee",
+        "price":50
     },
     {
         "index":3,
         "item":"Poi",
         "price":70
+    },
+    {
+        "index":4,
+        "item":"Maggi",
+        "price":40
+    
+    },
+    {
+        "index":5,
+        "item":"Coke",
+        "price":80
+    },
+    {
+        "index":6,
+        "item":"Porridge",
+        "price":140
+    },
+    {
+        "index":7,
+        "item":"Cake",
+        "price":150
     }
-    ]
+]
