@@ -89,6 +89,7 @@ const Search: NextPage = () => {
       deleteCookie("bProcessed");
       deleteCookie("Deleted");
       deleteCookie("Id")
+      setUpd(upd+1);
    }
    //resetCookies();
    console.log('dataRefresh :>> ', data);
@@ -439,7 +440,7 @@ return (
          <Typography className="flex justify-center">
             Processed Orders
          </Typography>
-         <Typography>
+         <Typography className="flex justify-center">
             {"Cash : Rs. "+amountC+ "   GPay : Rs. "+amountG}
          </Typography>
          {
@@ -483,6 +484,10 @@ return (
          </div>
       </div>
          </div>
+         <Button 
+      className="flex flex-col-reverse mb-10"
+      onClick={resetCookies}
+      >Reset Data {`{You will lose all billing history}`}</Button>
    </div>
    );
 };
