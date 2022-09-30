@@ -1,0 +1,22 @@
+[
+    {
+    "index":0,
+    "item":"Choose",
+    "price":0
+    },
+    {
+        "index":1,
+        "item":"Chai",
+        "price":20
+    },
+     {
+    "index":2,
+    "item":"Coffee",
+    "price":50
+    },
+    {
+        "index":3,
+        "item":"Poi",
+        "price":70
+    }
+    ]

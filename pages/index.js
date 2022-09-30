@@ -12,9 +12,6 @@ export default function Home() {
   function handleClick(){
     router.push({
       pathname:"./search",
-      query:{
-          "search":uname,
-      }
   })
   }
   return (
