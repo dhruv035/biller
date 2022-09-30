@@ -8,8 +8,14 @@ import { useRouter } from 'next/router';
 import { useForm } from "react-hook-form";
 import foodMenu from "./foodMenu.json";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {Download} from "../components/Excel";
 //Type for Cookies if Needed
 
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 const Qt=[0,1,2,3,4,5,6,7,8,8,9,10]
 const Pmode=[{
          index:0,
@@ -344,7 +350,7 @@ return (
          
       </div>
       <div className="flex flex-col w-6/12 ml-20 mt-20 ml-30 content-start items-start">
-       <Typography>Treasury</Typography>
+       <Typography fontSize={20}>Treasury</Typography>
 
        <Typography className='flex mb-10'>
       {"Cash : Rs. "+(middleC+amountC)+ "   GPay : Rs. "+(middleG+amountG)}</Typography>
@@ -431,7 +437,7 @@ return (
          </Button>
 
          <Button disabled={mode===0||billItems?.length===0} onClick={addOrder}>
-            New Order
+            Confirm Order
          </Button>
          </div>
          </div>
@@ -482,6 +488,7 @@ return (
             }))
          }
          </div>
+         {fData&&(<Download data={fData}/>)}
       </div>
          </div>
          <Button 
