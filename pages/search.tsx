@@ -1,7 +1,7 @@
 
 import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
-import {setCookie, getCookie,deleteCookie, setCookies, CookieValueTypes} from 'cookies-next';
+import {setCookie, getCookie,deleteCookie} from 'cookies-next';
 import {Header} from '../components/Header';
 import { 
    Typography,
@@ -13,8 +13,10 @@ import {
    AccordionDetails, 
    IconButton,
    Autocomplete,
-   TextField
+   TextField,
+   createFilterOptions
  } from '@mui/material';
+ 
 import { useRouter } from 'next/router';
 import { useForm } from "react-hook-form";
 import foodMenu from "./foodMenu.json";
@@ -23,14 +25,14 @@ import {Download} from "../components/Excel";
 import CloseIcon from '@mui/icons-material/Close';
 //Type for Cookies if Needed
 
-import ReactExport from "react-export-excel";
-import { minWidth } from '@mui/system';
+
 import NewMenu from "./NewMenu.json";
 
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 const Qt=[0,1,2,3,4,5,6,7,8,8,9,10]
+const filterOptions = createFilterOptions({
+   matchFrom: 'start',
+ });
 const Pmode=[{
          index:0,
          name:"Select Mode of Payment"
@@ -42,6 +44,7 @@ const Pmode=[{
       {index:2,
          name:"Cash"
       }]
+
 type RepoData={
    name?:string;
    private?:boolean;
@@ -334,7 +337,7 @@ return (
             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
          <Typography fontSize={30}>Kitchen Balance</Typography></AccordionSummary>
          <AccordionDetails>
-         <Typography> {"Cash : Rs. "+middleC}</Typography>
+         <Typography>{"Cash  : Rs. "+middleC}</Typography>
          <Typography>{"GPay : Rs. "+middleG}</Typography>
          </AccordionDetails>
          </Accordion>
@@ -457,6 +460,7 @@ return (
              onChange={(event: any, newValue: string | null) => {
                setItem2(newValue);
              }}
+             filterOptions={filterOptions}
              inputValue={inputValue}
              onInputChange={(event, newInputValue) => {
                setInputValue(newInputValue);
