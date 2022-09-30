@@ -3,7 +3,18 @@ import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import {setCookie, getCookie,deleteCookie, setCookies, CookieValueTypes} from 'cookies-next';
 import {Header} from '../components/Header';
-import { Typography, Button,Select, MenuItem, Accordion, AccordionSummary, AccordionDetails, IconButton } from '@mui/material';
+import { 
+   Typography,
+   Button,
+   Select,
+   MenuItem,
+   Accordion, 
+   AccordionSummary, 
+   AccordionDetails, 
+   IconButton,
+   Autocomplete,
+   TextField
+ } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useForm } from "react-hook-form";
 import foodMenu from "./foodMenu.json";
@@ -14,6 +25,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import ReactExport from "react-export-excel";
 import { minWidth } from '@mui/system';
+import NewMenu from "./NewMenu.json";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -71,6 +83,9 @@ const Search: NextPage = () => {
    const [billItems,setBillItems]=useState<ItemData[]>([]);
    const [qty,setQty]=useState<number>(0);
    const [item, setItem]=useState<number>(0);
+   const [item2, setItem2]=useState<string>("");
+   item2&&console.log('item2 :>> ', NewMenu[item2]);
+   const [inputValue,setInputValue]=useState<string>("");
    const [order,setOrder]=useState<BillData>({});
    const [mode, setMode] = useState<number>(0);
    const router=useRouter();
@@ -175,8 +190,8 @@ const Search: NextPage = () => {
       let temp=billItems;
       let newItem:ItemData={};
       let tempId=undefined;
-      newItem.name=foodMenu[item].item;
-      newItem.price=foodMenu[item].price;
+      newItem.name=NewMenu[item2].item;
+      newItem.price=NewMenu[item2].price;
       newItem.qty=qty
       newItem.amount=newItem.price*newItem.qty;
       temp.push(newItem);
@@ -198,6 +213,7 @@ const Search: NextPage = () => {
       })
       setQty(0);
       setItem(0);
+      setItem2("");
       setBillAmount(amount);
     }
     
@@ -214,6 +230,7 @@ const Search: NextPage = () => {
       setBillItems([]);
       setQty(0);
       setItem(0);
+      setItem2("");
       setMode(0);
       setUpd(upd+1);
       setBillAmount(0);
@@ -325,7 +342,7 @@ return (
          </div>
          <Typography className="flex justify-center" fontSize={20}>Orders in Kitchen</Typography>
          {
-            
+
             data&&(data.map((object,index)=>{
                return(
                   <Accordion>
@@ -409,7 +426,7 @@ return (
          </div>
          <div className="flex flex-row w-4/6 justify-start">
          <div className="flex flex-row w-fit">
-         <Select
+         {/*<Select
          fullWidth={true}
          sx={{
             alignSelf:"center",
@@ -433,7 +450,23 @@ return (
                )
             })
          }
-         </Select>
+         </Select>*/}
+         {
+             <Autocomplete
+             value={item2}
+             onChange={(event: any, newValue: string | null) => {
+               setItem2(newValue);
+             }}
+             inputValue={inputValue}
+             onInputChange={(event, newInputValue) => {
+               setInputValue(newInputValue);
+             }}
+             id="controllable-states-demo"
+             options={Object.keys(NewMenu)}
+             sx={{ width: 300 }}
+             renderInput={(params) => <TextField {...params} label="Item" />}
+           />
+         }
          <Select
          labelId="demo-simple-select-label"
          id="food-qty"
@@ -457,7 +490,7 @@ return (
          <Button 
          className="bg-orange-200 hover:bg-orange-500"
          variant="contained"
-         disabled={item===0||qty===0}
+         disabled={!NewMenu[item2]||qty===0}
          sx={{
             height:"55px"
          }}
@@ -466,6 +499,7 @@ return (
          </Button>
          </div>
          </div>
+         {NewMenu[item2]&&(<Typography>{"Price: "+NewMenu[item2].price}</Typography>)}
          <Typography fontSize={20} className="flex justify-center mt-16 mb-10">Payment</Typography>
          <Select
          fullWidth={true}

@@ -1,0 +1,35 @@
+{
+    "Choose":{
+        "item":"Choose",
+        "price":0
+    },
+    "Chai":{
+        "item":"Chai",
+        "price":20
+    },
+     "Coffee":{
+        "item":"Coffee",
+        "price":50
+    },
+    "Poi":{
+        "item":"Poi",
+        "price":70
+    },
+    "Maggi":{
+        "item":"Maggi",
+        "price":40
+    
+    },
+    "Coke":{
+        "item":"Coke",
+        "price":80
+    },
+    "Porridge":{
+        "item":"Porridge",
+        "price":140
+    },
+    "Cake":{
+        "item":"Cake",
+        "price":150
+    }
+}
