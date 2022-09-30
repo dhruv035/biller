@@ -291,7 +291,7 @@ return (
       <Header/>
       
       <div className="flex flex-row h-full w-full mt-16  align-center">
-      <div className="flex flex-col w-3/12 mt-20 float-left item">
+      <div className="flex flex-col w-3/12 mt-20 ml-6 float-left item">
          <Typography>Orders in Kitchen</Typography>
          <Typography> {"Cash : Rs. "+middleC+ "   GPay : Rs. "+middleG}</Typography>
          {
@@ -437,7 +437,7 @@ return (
          </div>
          <div className="flex flex-col w-3/12 mt-20 float-left item overflow-auto">
       <div>
-         <Typography className="flex justify-center">
+         <Typography className="flex justify-center mr-10">
             Processed Orders
          </Typography>
          <Typography className="flex justify-center">

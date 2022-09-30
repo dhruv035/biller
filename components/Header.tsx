@@ -7,15 +7,7 @@ export const Header = () => {
   const [uname,setUname]=useState("");
   const router = useRouter();
   function route(path){
-    if(path==="search"){
-      router.push({
-      pathname:"./search",
-      query:{
-          "search":uname,
-      }
-    })
-    setUname("")
-    } else router.push(path);
+    router.push(path);
   }
   
   return (
@@ -24,17 +16,18 @@ export const Header = () => {
         <Button 
         variant="text" 
         sx={{
-          color:"#FF2",
+          color:"#FF0000",
           height:"48px",
           fontFamily:"Comic Sans MS",
           fontSize:"30px"}} 
-        onClick={()=>route('/')}
+        onClick={()=>route('/search')}
         >
-        Punks
+        Billing
         </Button>
         <Button
         variant="text"
         sx={{
+          marginLeft:"10px",
           color:"black",
           height:"48px",
           fontFamily:"Comic Sans MS",
@@ -58,16 +51,6 @@ export const Header = () => {
         >
         Search
         </Button>
-        <TextField 
-        value={uname} 
-        variant="filled"
-        size="small"
-        onKeyDown={(e)=>{if(e.key==="Enter")route("search")}}
-        sx={{maxWidth:"400px"}} 
-        placeholder={"Search..."} 
-        onChange={(e)=>setUname(e.currentTarget.value)}
-        inputProps={{padding:"20px 20px"}}
-        />
       </div>
     </div>
   );
