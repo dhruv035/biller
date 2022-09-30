@@ -78,8 +78,8 @@ const Search: NextPage = () => {
    console.log('cookie :>> ', cookie&&typeof(cookie)==="string"&&JSON.parse(cookie));
    console.log('fCookie :>> ', fCookie&&typeof(fCookie)==="string"&&JSON.parse(fCookie));
    console.log('dCookie :>> ', dCookie&&typeof(dCookie)==="string"&&JSON.parse(dCookie));
-   const [data,setData]=useState();
-   const [fData,setFData]=useState();
+   const [data,setData]=useState<any>();
+   const [fData,setFData]=useState<any>();
    const [dData,setDData]=useState();
    const [nData,setNData]=useState();
    const [billAmount,setBillAmount]=useState(0);
