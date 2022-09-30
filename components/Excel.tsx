@@ -1,6 +1,6 @@
 import React from "react";
 import ReactExport from "react-export-excel";
-
+import { Button } from "@mui/material";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -39,7 +39,7 @@ export const Download =({data}:Props)=> {
         xData.push(temp)
     })
         return (
-            <ExcelFile element={<button>Download Data</button>}>
+            <ExcelFile element={<Button>Download Data</Button>}>
                 
                 <ExcelSheet data={xData} name="Leaves">
                     <ExcelColumn label="Order No." value="id"/>

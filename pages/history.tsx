@@ -29,25 +29,22 @@ const History: NextPage = () => {
             setBillData(tempo);
         }
 },[cookie,dCookie]);
-
-function handleClick(search:string){
-    router.push({
-        pathname:"./search",
-        query:{
-            "search":search,
-        }
-    })
-}
+console.log('billData :>> ', billData);
   return (
   <div className="flex flex-col">
     <Header/>
-    <div className='mx-8 my-3 '>
+    <div className='mx-8 my-3 mt-20'>
     {/*data?.length&&<MyTable data={data} onclick={handleClick}/>*/}
     {           billData?.length&&(billData.map((object)=>{
+        let temp="";
+        if(object.status&&object.status==="refunded")
+        temp=" [Refunded]"
+        else
+        temp=""
         return(<Accordion>
             <AccordionSummary 
             expandIcon={<ExpandMoreIcon />}>
-               <Typography>{"Order No. "+ object.id}</Typography>
+               <Typography>{"Order No. "+ object.id+temp}</Typography>
             </AccordionSummary>
             <AccordionDetails>
                {

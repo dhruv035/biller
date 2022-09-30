@@ -30,35 +30,28 @@ export default function Home() {
       height="600"
       />
         <h1 className={styles.title}>
-          Welcome to Github Lookup
+          Welcome to My Biller
         </h1>
         <p className={styles.description}>
-          Get started by searching a username
+          Create Bills and export to Excel
         </p>
         <div className={styles.grid}>
-        <TextField 
-        className='bg-blue-200'
-        value={uname}
-        placeholder="Search..."
-        onChange={(e)=>setUname(e.currentTarget.value)}
-        onKeyDown={(e)=>{if(e.key==="Enter")handleClick()}}
-        />
-        <Button  
+        <Button className="bg-orange-700 hover:bg-stone-700"
+        variant="contained"
         sx={{
           color:"white",
           height:"48px",
-          alignItems:"flex-end",
           fontFamily:"Sofia"
         }}
         onClick={handleClick}
         >
-        Search...
+        Open App
         </Button>
         </div>
       </main>
       <footer className={styles.footer}>
-      <p className="color-blue-200">
-          Get started by searching a username
+      <p className="text-3xl color-blue-200">
+          madmax#1366
         </p>
       </footer>
     </div>
