@@ -133,6 +133,7 @@ const Search: NextPage = () => {
       setMiddleC(t2);
       setMiddleG(t1);
    },[cookie,fCookie,dCookie,nCookie,upd,billItems])
+
    async function addCookie(cookieName:string,tCookie:any,bill:BillData){
      let xdata:BillData[]=[];
       if(tCookie&&typeof(tCookie)==="string"){
@@ -214,8 +215,6 @@ const Search: NextPage = () => {
          let temp=xdata[index];
          if(index!=0)
          xdata.splice(index,1);
-         else
-         xdata.splice(1);
          console.log('xdata :>> ', xdata);
          if(xdata.length)
          setCookie('billCookies',xdata);
