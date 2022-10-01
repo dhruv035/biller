@@ -41,6 +41,14 @@ const Pmode=[{
          name:"Cash"
       }]
 
+type Food= {
+   item:string,
+   price:number
+}
+
+type MenuList = {
+   [key:string]:Food
+}
 
 type ItemData={
    name?:string;
@@ -63,6 +71,8 @@ const Search: NextPage = () => {
    const [qty,setQty]=useState<number>(0);
    const [item2, setItem2]=useState<string>("");
    item2&&console.log('item2 :>> ', NewMenu[item2]);
+   const [menu,setMenu]=useState<any>(NewMenu);
+   const [isCustom,setIsCustom]=useState<boolean>(false);
    const [inputValue,setInputValue]=useState<string>("");
    const [order,setOrder]=useState<BillData>({});
    const [mode, setMode] = useState<number>(0);
@@ -70,6 +80,7 @@ const Search: NextPage = () => {
    const fCookie=getCookie('bProcessed');
    const dCookie=getCookie('Deleted');
    const nCookie=getCookie('Id');
+   const mCookie=getCookie('Menu');
    const [count, setCount]=useState(1);
    const [amountG,setAmountG]=useState(0);
    const [amountC,setAmountC]=useState(0);
@@ -94,7 +105,7 @@ const Search: NextPage = () => {
             setCookie("Id",1)
          }
    },[nCookie])
-
+   
    
    useEffect(()=>{
       let aG=0;
@@ -158,8 +169,8 @@ const Search: NextPage = () => {
       let temp=billItems;
       let newItem:ItemData={};
       let tempId=undefined;
-      newItem.name=NewMenu[item2].item;
-      newItem.price=NewMenu[item2].price;
+      newItem.name=menu[item2].item;
+      newItem.price=menu[item2].price;
       newItem.qty=qty
       newItem.amount=newItem.price*newItem.qty;
       temp.push(newItem);
@@ -279,6 +290,13 @@ const Search: NextPage = () => {
          setBillItems(temp);
          setUpd(upd+1);
    }
+   const changeMenu = ()=>{
+      if(isCustom)
+      setMenu(NewMenu);
+      else if(mCookie&&typeof(mCookie)==="string")
+      setMenu(JSON.parse(mCookie));
+      setIsCustom(!isCustom);
+   }
 return (
    <div  className="flex flex-col h-screen w-full overflow-hidden">
       <Header/>
@@ -348,6 +366,9 @@ return (
       </div>
       <div className="flex flex-col w-6/12 mt-20 ml-30 content-center items-center">
       <div className='mb-10 w-3/5'>
+         <Button onClick={changeMenu}>
+           { isCustom?"Use Default":"Use Your Own Menu"}
+         </Button>
       <Accordion>
          <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
          <Typography fontSize={30}>Treasury</Typography></AccordionSummary>
@@ -419,7 +440,7 @@ return (
                setInputValue(newInputValue);
              }}
              id="controllable-states-demo"
-             options={Object.keys(NewMenu)}
+             options={Object.keys(menu)}
              sx={{ width: 300 }}
              renderInput={(params) => <TextField {...params} label="Item" />}
            />
@@ -447,7 +468,7 @@ return (
          <Button 
          className="bg-orange-200 hover:bg-orange-500"
          variant="contained"
-         disabled={!NewMenu[item2]||qty===0}
+         disabled={!menu[item2]||qty===0}
          sx={{
             height:"55px"
          }}
@@ -456,7 +477,7 @@ return (
          </Button>
          </div>
          </div>
-         {NewMenu[item2]&&(<Typography>{"Price: "+NewMenu[item2].price}</Typography>)}
+         {menu[item2]&&(<Typography>{"Price: "+menu[item2].price}</Typography>)}
          <Typography fontSize={20} className="flex justify-center mt-16 mb-10">Payment</Typography>
          <Select
          fullWidth={true}
