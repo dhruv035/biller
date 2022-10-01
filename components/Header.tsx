@@ -37,21 +37,21 @@ export const Header = () => {
         >
         History
         </Button>
-      </div>
-      <div className="flex grow flex-row-reverse">
         <Button
         variant="text"
         sx={{
-          color:"white",
+          marginLeft:"10px",
+          color:"black",
           height:"48px",
-          alignItems:"flex-end",
-          fontFamily:"Comic Sans MS"
+          fontFamily:"Comic Sans MS",
+          fontSize:"20px"
         }}
-        onClick={()=>route("search")}
+        onClick={()=>route('/createMenu')}
         >
-        Search
+        Menu
         </Button>
       </div>
+
     </div>
   );
 };
