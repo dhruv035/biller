@@ -16,10 +16,6 @@ import {
    TextField,
    createFilterOptions
  } from '@mui/material';
- 
-import { useRouter } from 'next/router';
-import { useForm } from "react-hook-form";
-import foodMenu from "./foodMenu.json";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {Download} from "../components/Excel";
 import CloseIcon from '@mui/icons-material/Close';
@@ -45,12 +41,7 @@ const Pmode=[{
          name:"Cash"
       }]
 
-type RepoData={
-   name?:string;
-   private?:boolean;
-   url?:string;
-   html_url?:string;
-}
+
 type ItemData={
    name?:string;
    price?:number;
@@ -64,34 +55,17 @@ type BillData = {
    pmode?:string;
    status?:string;
 }
-type FormData = {
-   item?:number;
-   qty?:number;
-}
 const Search: NextPage = () => {
 
-   const {
-         register,
-         handleSubmit,
-         reset,
-         getValues,
-         watch,
-      } = useForm({
-         defaultValues:{
-            item:foodMenu[0].index,
-            qty:Qt[0],
-         }
-      });
+
    const [upd,setUpd]=useState(0);
    const [billItems,setBillItems]=useState<ItemData[]>([]);
    const [qty,setQty]=useState<number>(0);
-   const [item, setItem]=useState<number>(0);
    const [item2, setItem2]=useState<string>("");
    item2&&console.log('item2 :>> ', NewMenu[item2]);
    const [inputValue,setInputValue]=useState<string>("");
    const [order,setOrder]=useState<BillData>({});
    const [mode, setMode] = useState<number>(0);
-   const router=useRouter();
    const cookie=getCookie('billCookies');
    const fCookie=getCookie('bProcessed');
    const dCookie=getCookie('Deleted');
@@ -104,8 +78,6 @@ const Search: NextPage = () => {
    //logs
    const [data,setData]=useState<any>();
    const [fData,setFData]=useState<any>();
-   const [dData,setDData]=useState();
-   const [nData,setNData]=useState();
    const [billAmount,setBillAmount]=useState(0);
    
    const resetCookies=()=>{
@@ -130,16 +102,10 @@ const Search: NextPage = () => {
 
       const a = typeof(cookie)==="string"&& JSON.parse(cookie);
       const b = typeof(fCookie)==="string"&& JSON.parse(fCookie);
-      const c = typeof(dCookie)==="string"&& JSON.parse(dCookie);
-      const d = typeof(nCookie)==="string"&& JSON.parse(nCookie);
       
       {setData(a);}
    
       {setFData(b);}
-      
-      {setDData(c);}
-      
-      {setNData(d);}
       if(b)
       {
          b.forEach((object)=>{
@@ -175,7 +141,6 @@ const Search: NextPage = () => {
          setCookie(cookieName,xdata);
          setOrder(undefined);
          setQty(0);
-         setItem(0);
          setMode(0);
       } else{
          let val:BillData[]=[];
@@ -183,7 +148,6 @@ const Search: NextPage = () => {
          setCookie(cookieName,val);
          setOrder(undefined);
          setQty(0);
-         setItem(0);
          setMode(0);
          setBillAmount(0);
       }  
@@ -215,13 +179,11 @@ const Search: NextPage = () => {
          amount:amount
       })
       setQty(0);
-      setItem(0);
       setItem2("");
       setBillAmount(amount);
     }
     
     const addOrder=()=>{
-      
       let temp:BillData=order;
       let tempId=undefined;
       if(nCookie&&typeof(nCookie)==="string")
@@ -232,15 +194,10 @@ const Search: NextPage = () => {
       setCount(count+1)
       setBillItems([]);
       setQty(0);
-      setItem(0);
       setItem2("");
       setMode(0);
       setUpd(upd+1);
       setBillAmount(0);
-    }
-
-    const handleChangeItem=(e:any)=>{
-      setItem(e.target.value)
     }
     const handleChangeQty=(e:any)=>{
       setQty(e.target.value)
@@ -267,7 +224,6 @@ const Search: NextPage = () => {
          temp.status="refunded"
          addCookie('Deleted',dCookie,temp)
          setQty(0);
-         setItem(0);
          setMode(0);
          setUpd(upd+1);
     }
@@ -289,7 +245,6 @@ const Search: NextPage = () => {
           deleteCookie('billCookies')
           addCookie('bProcessed',fCookie,moveOrder);
           setQty(0);
-          setItem(0);
           setMode(0);
           setUpd(upd+1)
     }
