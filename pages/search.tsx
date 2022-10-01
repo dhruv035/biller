@@ -213,7 +213,6 @@ const Search: NextPage = () => {
       if(cookie&&typeof(cookie)==="string"){
           xdata=  JSON.parse(cookie);
          let temp=xdata[index];
-         if(index!=0)
          xdata.splice(index,1);
          console.log('xdata :>> ', xdata);
          if(xdata.length)
