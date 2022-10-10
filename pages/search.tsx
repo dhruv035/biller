@@ -536,10 +536,11 @@ return (
           variant="standard"
         />
          <Button 
-         className="my-5 self-start bg-orange-200 hover:bg-orange-500"
+         className="flex my-5 self-start bg-orange-200 hover:bg-orange-500"
          variant="contained"
          disabled={!ctrl||parseInt(ctrl)>billAmount+parseInt(discount)}
          sx={{
+
             height:"40px"
             
          }}
