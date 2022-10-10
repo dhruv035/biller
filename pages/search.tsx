@@ -14,9 +14,15 @@ import {
    IconButton,
    Autocomplete,
    TextField,
-   createFilterOptions
+   createFilterOptions,
+   BottomNavigation,
+   BottomNavigationAction,
+   Paper
  } from '@mui/material';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {Download} from "../components/Excel";
 import CloseIcon from '@mui/icons-material/Close';
 //Type for Cookies if Needed
@@ -25,7 +31,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import NewMenu from "./NewMenu.json";
 
 
-const Qt=[0,1,2,3,4,5,6,7,8,8,9,10]
+const Qt=[1,2,3,4,5,6,7,8,8,9,10]
 const filterOptions = createFilterOptions({
    matchFrom: 'start',
  });
@@ -62,13 +68,15 @@ type BillData = {
    amount?:number;
    pmode?:string;
    status?:string;
+   discount?:number;
 }
 const Search: NextPage = () => {
 
 
+   const [view,setView]=useState(0);
    const [upd,setUpd]=useState(0);
    const [billItems,setBillItems]=useState<ItemData[]>([]);
-   const [qty,setQty]=useState<number>(0);
+   const [qty,setQty]=useState<any>('');
    const [item2, setItem2]=useState<string>("");
    item2&&console.log('item2 :>> ', NewMenu[item2]);
    const [menu,setMenu]=useState<any>(NewMenu);
@@ -86,10 +94,13 @@ const Search: NextPage = () => {
    const [amountC,setAmountC]=useState(0);
    const [middleG,setMiddleG]=useState(0);
    const [middleC,setMiddleC]=useState(0);
+   const [discount,setDiscount]=useState('');
+   const [ctrl,setCtrl]=useState('')
    //logs
    const [data,setData]=useState<any>();
    const [fData,setFData]=useState<any>();
    const [billAmount,setBillAmount]=useState(0);
+   
    
    const resetCookies=()=>{
       deleteCookie("billCookies");
@@ -105,12 +116,31 @@ const Search: NextPage = () => {
             setCookie("Id",1)
          }
    },[nCookie])
-   
-   
+   console.log('billItems :>> ', billItems);
+   useEffect(()=>{
+      console.log('MyEffect :>> ');
+      let temp=billItems;
+      let total=0;
+      billItems.forEach(item=>{
+         total=total+item.amount;
+      })
+      if(discount)
+      total=total-parseInt(discount);
+
+      setBillAmount(total);
+      let tempId=1;
+
+      if(nCookie&&typeof(nCookie)==="string")
+      tempId=JSON.parse(nCookie);
+      setOrder({
+         id:tempId,
+         items:temp,
+         amount:total
+      })
+   },[billItems.length,discount])
    useEffect(()=>{
       let aG=0;
       let aC=0;
-
       const a = typeof(cookie)==="string"&& JSON.parse(cookie);
       const b = typeof(fCookie)==="string"&& JSON.parse(fCookie);
       
@@ -161,7 +191,7 @@ const Search: NextPage = () => {
          setOrder(undefined);
          setQty(0);
          setMode(0);
-         setBillAmount(0);
+         
       }  
    };
    
@@ -181,18 +211,10 @@ const Search: NextPage = () => {
          
          amount=amount+object.amount;
       });
-      if(nCookie&&typeof(nCookie)==="string")
-      tempId=JSON.parse(nCookie);
-   
-      setBillItems(temp);
-      setOrder({
-         id:tempId,
-         items:temp,
-         amount:amount
-      })
+      
       setQty(0);
       setItem2("");
-      setBillAmount(amount);
+      
     }
     
     const addOrder=()=>{
@@ -202,6 +224,7 @@ const Search: NextPage = () => {
       tempId=JSON.parse(nCookie);
       setCookie("Id",tempId+1)
       temp.pmode=Pmode[mode].name;
+      temp.discount=parseInt(discount);
       addCookie("billCookies",cookie,temp);
       setCount(count+1)
       setBillItems([]);
@@ -210,6 +233,8 @@ const Search: NextPage = () => {
       setMode(0);
       setUpd(upd+1);
       setBillAmount(0);
+      setCtrl('');
+      setDiscount('');
     }
     const handleChangeQty=(e:any)=>{
       setQty(e.target.value)
@@ -290,6 +315,9 @@ const Search: NextPage = () => {
          setBillItems(temp);
          setUpd(upd+1);
    }
+   const addDiscount = ()=>{
+      
+   }
    const changeMenu = ()=>{
       if(isCustom)
       setMenu(NewMenu);
@@ -298,23 +326,22 @@ const Search: NextPage = () => {
       setIsCustom(!isCustom);
    }
 return (
-   <div  className="flex flex-col h-screen w-full overflow-hidden">
+   <div  className="flex flex-col h-screen w-full overflow-auto">
       <Header/>
-      
-      <div className="flex flex-row h-full w-full mt-16  align-center">
-      <div className="flex flex-col w-3/12 mt-20 ml-6 float-left item">
-         <div className='mb-10'>
+     
+      <div className="flex flex-row mx-4 h-full w-11/12 mt-16  align-center">
+         
+      {view===1&&(<div className="flex flex-col w-full mx-3 p-0 lg:w-3/12 mt-20 ml-0 lg:ml-6 content-center ">
          <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-         <Typography fontSize={30}>Kitchen Balance</Typography></AccordionSummary>
+         <Typography width={"100%"} textAlign={"center"} fontSize={"6.2vw"}>Kitchen Balance</Typography></AccordionSummary>
          <AccordionDetails>
          <Typography>{"Cash  : Rs. "+middleC}</Typography>
          <Typography>{"GPay : Rs. "+middleG}</Typography>
          </AccordionDetails>
          </Accordion>
          
-         </div>
-         <Typography className="flex justify-center" fontSize={20}>Orders in Kitchen</Typography>
+         <Typography className="flex mt-5 justify-center" fontSize={20}>Orders in Kitchen</Typography>
          {
 
             data&&(data.map((object,index)=>{
@@ -341,6 +368,16 @@ return (
                            )
                         })
                         }
+                        <div className='flex flex-row w-full'>
+                              <Typography className="flex w-full justify-start mb-4">
+                                 Discount
+                              </Typography>
+                              <div className="flex flex-row-reverse w-2/5">
+                              <Typography>
+                              -{object.discount}
+                              </Typography>
+                              </div>
+                              </div>
                         <Typography className="flex flex-row-reverse w-full"
                         sx={{ borderTop: 1 }}>
                         {"Rs. "+object.amount}
@@ -363,34 +400,40 @@ return (
             }))
          }
          
-      </div>
-      <div className="flex flex-col w-6/12 mt-20 ml-30 content-center items-center">
-      <div className='mb-10 w-3/5'>
-         <Button onClick={changeMenu}>
+      </div>)}
+      {view===0&&(<div className="flex flex-col w-full mt-6 lg:mt-20 ml-30 content-center items-center">
+      <div className='mb-10 w-full lg:w-3/5 self-start'>
+         <Button className="w-full"
+         onClick={changeMenu}
+         style={{
+            fontSize:"3vw"
+         }}
+         >
            { isCustom?"Use Default":"Use Your Own Menu"}
          </Button>
       <Accordion>
          <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-         <Typography fontSize={30}>Treasury</Typography></AccordionSummary>
+         <Typography fontSize={"4.2vw"}>Treasury</Typography></AccordionSummary>
          <AccordionDetails>
          <Typography> {"Cash : Rs. "+(amountC+middleC)}</Typography>
          <Typography>{"GPay : Rs. "+(amountG+middleG)}</Typography>
          </AccordionDetails>
          </Accordion>
          </div>
-       <Typography fontSize={20} className="flex justify-center">Generate Invoice</Typography>
+       <Typography fontSize={"5vw"} className="flex justify-center">Add Items</Typography>
         
-         <div className='flex flex-col w-4/6 justify-start p-3'>
+         <div className='flex flex-col w-full lg:w-4/6 justify-start p-3'>
             {
                (billItems?.length>0)&&billItems.map((object:ItemData,index:number)=>{
                   return(
-                     <div className='flex flex-row'>
-                     <Typography className="flex items-center" maxWidth={300}>
+                     <div className='flex flex-row w-full'>
+                     <Typography className="flex items-center min-w-max" maxWidth={300}>
                         {object.qty+ " * " + object.name}
                      </Typography>
-                     <IconButton className='flex flex-row-reverse w-1/6 '
+                     <IconButton className='flex flex-row-reverse w-full'
                      onClick={()=>removeItem(index,object.amount)}
-                     size="small">
+                     size="small"
+                     color='warning'>
                         <CloseIcon/>
                      </IconButton>
                      </div>
@@ -401,8 +444,8 @@ return (
                {"Total : Rs. "+billAmount}
             </Typography>)}
          </div>
-         <div className="flex flex-row w-4/6 justify-start">
-         <div className="flex flex-row w-fit">
+         <div className="flex flex-col lg:flex-row w-full lg:w-4/6 justify-start">
+         <div className="flex flex-col lg:flex-row w-full">
          {/*<Select
          fullWidth={true}
          sx={{
@@ -441,20 +484,22 @@ return (
              }}
              id="controllable-states-demo"
              options={Object.keys(menu)}
-             sx={{ width: 300 }}
+             sx={{ width:"90%",maxWidth: 300 }}
              renderInput={(params) => <TextField {...params} label="Item" />}
            />
          }
          <Select
          labelId="demo-simple-select-label"
          id="food-qty"
-         label="Qty"
+         label={"Quantity"}
+         placeholder="Yo"
          value={qty}
          sx={{
-            alignSelf:"center",
+            width:"90%",
+            alignSelf:"start",
             marginBottom:"20px",
-            maxWidth:"300px",
-            marginRight:"10px"
+            maxWidth:"100px",
+            marginTop:"20px"
             
          }}
          onChange={(e)=>handleChangeQty(e)}
@@ -463,8 +508,10 @@ return (
                return (<MenuItem value={item}>{item}</MenuItem>)
             })}
          </Select>
+
+         {menu[item2]&&(<Typography className="content-start mb-3">{"Price: "+ menu[item2].price}</Typography>)}
          </div>
-         <div className='flex flex-row-reverse w-3/6'>
+         <div className='flex flex-row lg:flex-row-reverse w-3/6'>
          <Button 
          className="bg-orange-200 hover:bg-orange-500"
          variant="contained"
@@ -477,9 +524,32 @@ return (
          </Button>
          </div>
          </div>
-         {menu[item2]&&(<Typography>{"Price: "+menu[item2].price}</Typography>)}
-         <Typography fontSize={20} className="flex justify-center mt-16 mb-10">Payment</Typography>
+         
+         <Typography fontSize={"5vw"} className="flex mb-2 justify-center mt-3">Discount</Typography>
+         <TextField
+         className='self-start mb-3'
+          id="filled-number"
+          label="Discount"
+          type="number"
+          value={ctrl}
+          onChange={(e)=>setCtrl(e.currentTarget.value)}
+          variant="standard"
+        />
+         <Button 
+         className="mb-3 self-start bg-orange-200 hover:bg-orange-500"
+         variant="contained"
+         disabled={!ctrl||parseInt(ctrl)>billAmount+parseInt(discount)}
+         sx={{
+            height:"40px"
+            
+         }}
+          onClick={()=>setDiscount(ctrl)}>
+            Add Discount
+         </Button>
+        
+         <Typography fontSize={"5vw"} className="flex justify-center mt-5 lg:mt-16 mb-10">Payment</Typography>
          <Select
+         className="self-start"
          fullWidth={true}
          sx={{
             marginBottom:"20px",
@@ -496,20 +566,16 @@ return (
                return (<MenuItem value={item.index}>{item.name}</MenuItem>)
             })}
          </Select>
-         <div className="flex flex-row">
-         
-        
-
          <Button 
-         className="bg-green-100 hover:bg-green-600"
+         className="self-start bg-green-100 hover:bg-green-600"
          disabled={mode===0||billItems?.length===0}
          variant="contained"
          onClick={addOrder}>
             Confirm Order
          </Button>
-         </div>
-         </div>
-         <div className="flex flex-col w-3/12 mt-20 float-left item overflow-auto mr-10">
+         </div>)}
+
+        {view===2&&( <div className="flex flex-col w-full lg:w-3/12 mt-20 float-left item overflow-auto mr-10">
       <div>
 
       <div className='mb-10'>
@@ -552,6 +618,16 @@ return (
                            )
                         })
                         }
+                        <div className='flex flex-row w-full'>
+                              <Typography className="flex w-full justify-start mb-4">
+                                 Discount
+                              </Typography>
+                              <div className="flex flex-row-reverse w-2/5">
+                              <Typography>
+                              -{object.discount}
+                              </Typography>
+                              </div>
+                              </div>
                         <Typography className="flex flex-row-reverse w-full"
                         sx={{ borderTop: 1 }}>
                         {"Rs. "+object.amount}
@@ -570,12 +646,24 @@ return (
          {fData&&(<Download data={fData}/>)}
          {fData&&(<Button className="flex w-full flex-row-reverse justify-start" onClick={moveAll}>Delete</Button>)}
          </div>
-      </div>
+      </div>)}
          </div>
          <Button 
       className="flex flex-col-reverse mb-10"
       onClick={resetCookies}
       >Reset Data {`{You will lose all billing history}`}</Button>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+       <BottomNavigation
+        showLabels
+        value={view}
+        onChange={(event, newValue) => {
+          setView(newValue);
+        }}
+      >
+        <BottomNavigationAction label="Counter" value={0} icon={<RestoreIcon />} />
+        <BottomNavigationAction label="Kitchen" value={1} icon={<FavoriteIcon />} />
+        <BottomNavigationAction label="Completed" value={2} icon={<LocationOnIcon />} />
+      </BottomNavigation></Paper>
    </div>
    );
 };

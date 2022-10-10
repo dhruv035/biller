@@ -19,7 +19,7 @@ export const Header = () => {
           color:"#FF0000",
           height:"48px",
           fontFamily:"Comic Sans MS",
-          fontSize:"30px"}} 
+          fontSize:"3vw"}} 
         onClick={()=>route('/search')}
         >
         Billing
@@ -31,7 +31,7 @@ export const Header = () => {
           color:"black",
           height:"48px",
           fontFamily:"Comic Sans MS",
-          fontSize:"20px"
+          fontSize:"3vw"
         }}
         onClick={()=>route('/history')}
         >
@@ -44,7 +44,7 @@ export const Header = () => {
           color:"black",
           height:"48px",
           fontFamily:"Comic Sans MS",
-          fontSize:"20px"
+          fontSize:"3vw"
         }}
         onClick={()=>route('/createMenu')}
         >
