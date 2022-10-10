@@ -525,9 +525,9 @@ return (
          </div>
          </div>
          
-         <Typography fontSize={"5vw"} className="flex mb-2 justify-center mt-3">Discount</Typography>
+         <Typography fontSize={"5vw"} className="flex mb-2 justify-center my-5">Discount</Typography>
          <TextField
-         className='self-start mb-3'
+         className='self-start my-5'
           id="filled-number"
           label="Discount"
           type="number"
@@ -536,7 +536,7 @@ return (
           variant="standard"
         />
          <Button 
-         className="mb-3 self-start bg-orange-200 hover:bg-orange-500"
+         className="my-5 self-start bg-orange-200 hover:bg-orange-500"
          variant="contained"
          disabled={!ctrl||parseInt(ctrl)>billAmount+parseInt(discount)}
          sx={{
