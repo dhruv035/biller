@@ -44,7 +44,7 @@ console.log('billData :>> ', billData);
         return(<Accordion>
             <AccordionSummary 
             expandIcon={<ExpandMoreIcon />}>
-               <Typography>{"Order No. "+ object.id+temp}</Typography>
+               <Typography>{"Order #"+ object.id+":("+object.name+")"+temp}</Typography>
             </AccordionSummary>
             <AccordionDetails>
                {

@@ -64,6 +64,7 @@ type ItemData={
 }
 type BillData = {
    id?:number;
+   name?:string;
    items?:ItemData[];
    amount?:number;
    pmode?:string;
@@ -84,6 +85,7 @@ const Search: NextPage = () => {
    const [inputValue,setInputValue]=useState<string>("");
    const [order,setOrder]=useState<BillData>({});
    const [mode, setMode] = useState<number>(0);
+   const [name,setName]= useState('');
    const cookie=getCookie('billCookies');
    const fCookie=getCookie('bProcessed');
    const dCookie=getCookie('Deleted');
@@ -224,11 +226,13 @@ const Search: NextPage = () => {
       tempId=JSON.parse(nCookie);
       setCookie("Id",tempId+1)
       temp.pmode=Pmode[mode].name;
+      temp.name=name;
       temp.discount=parseInt(discount);
       addCookie("billCookies",cookie,temp);
       setCount(count+1)
       setBillItems([]);
       setQty(0);
+      setName('');
       setItem2("");
       setMode(0);
       setUpd(upd+1);
@@ -326,12 +330,12 @@ const Search: NextPage = () => {
       setIsCustom(!isCustom);
    }
 return (
-   <div  className="flex flex-col h-screen w-full mb-6 overflow-scroll">
+   <div  className="flex flex-col h-screen w-full  pb-10 overflow-scroll">
       <Header/>
      
-      <div className="flex flex-row mx-4 h-full w-11/12 mt-16 mb-10  align-center">
+      <div className="flex flex-row mx-4 w-11/12  mt-16 mb-20 align-center">
          
-      {view===1&&(<div className="flex flex-col w-full mx-3 p-0 lg:w-3/12 mt-20 ml-0 lg:ml-6 content-center ">
+      {view===1&&(<div className="flex flex-col w-full mx-3 p-0 lg:w-3/12 mt-20 ml-0 lg:ml-6 content-center">
          <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
          <Typography width={"100%"} textAlign={"center"} fontSize={"6.2vw"}>Kitchen Balance</Typography></AccordionSummary>
@@ -349,7 +353,7 @@ return (
                   <Accordion>
                      <AccordionSummary 
                      expandIcon={<ExpandMoreIcon />}>
-                        <Typography>{"Order No. "+ object.id}</Typography>
+                        <Typography>{"Order #"+ object.id+":("+object.name+")"}</Typography>
                      </AccordionSummary>
                      <AccordionDetails>
                         {
@@ -420,9 +424,18 @@ return (
          </AccordionDetails>
          </Accordion>
          </div>
-       <Typography fontSize={"5vw"} className="flex justify-center">Add Items</Typography>
+         <Typography fontSize={"5vw"} className="flex self-start">Name</Typography>
+         <TextField
+         className='flex self-start mt-2 mb-8'
+          id="filled-name"
+          label="Name"
+          value={name}
+          onChange={(e)=>setName(e.currentTarget.value)}
+          variant="standard"
+        />
+       <Typography fontSize={"5vw"} className="flex self-start">Add Items</Typography>
         
-         <div className='flex flex-col w-full lg:w-4/6 justify-start p-3'>
+         <div className='flex flex-col w-full lg:w-4/6 self-start p-3'>
             {
                (billItems?.length>0)&&billItems.map((object:ItemData,index:number)=>{
                   return(
@@ -472,6 +485,7 @@ return (
          }
          </Select>*/}
          {
+
              <Autocomplete
              value={item2}
              onChange={(event: any, newValue: string | null) => {
@@ -525,7 +539,7 @@ return (
          </div>
          </div>
          
-         <Typography fontSize={"5vw"} className="flex mb-5 justify-center my-5">Discount</Typography>
+         <Typography fontSize={"5vw"} className="flex self-start my-5">Discount</Typography>
          <TextField
          className='flex self-start my-5'
           id="filled-number"
@@ -574,7 +588,8 @@ return (
          onClick={addOrder}>
             Confirm Order
          </Button>
-         </div>)}
+         </div>)
+         }
 
         {view===2&&( <div className="flex flex-col w-full lg:w-3/12 mt-20 float-left item overflow-auto mr-10">
       <div>
@@ -649,11 +664,12 @@ return (
          </div>
       </div>)}
          </div>
-         <Button 
-      className="flex flex-col-reverse mb-10"
+         
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+      <Button 
+      className="flex flex-col-reverse "
       onClick={resetCookies}
       >Reset Data {`{You will lose all billing history}`}</Button>
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
        <BottomNavigation
         showLabels
         value={view}
