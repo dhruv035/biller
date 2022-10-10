@@ -525,9 +525,9 @@ return (
          </div>
          </div>
          
-         <Typography fontSize={"5vw"} className="flex mb-2 justify-center my-5">Discount</Typography>
+         <Typography fontSize={"5vw"} className="flex mb-5 justify-center my-5">Discount</Typography>
          <TextField
-         className='self-start my-5'
+         className='flex self-start my-5'
           id="filled-number"
           label="Discount"
           type="number"
