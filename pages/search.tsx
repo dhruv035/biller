@@ -326,10 +326,10 @@ const Search: NextPage = () => {
       setIsCustom(!isCustom);
    }
 return (
-   <div  className="flex flex-col h-screen w-full overflow-auto">
+   <div  className="flex flex-col h-screen w-full mb-6 overflow-scroll">
       <Header/>
      
-      <div className="flex flex-row mx-4 h-full w-11/12 mt-16  align-center">
+      <div className="flex flex-row mx-4 h-full w-11/12 mt-16 mb-10  align-center">
          
       {view===1&&(<div className="flex flex-col w-full mx-3 p-0 lg:w-3/12 mt-20 ml-0 lg:ml-6 content-center ">
          <Accordion>

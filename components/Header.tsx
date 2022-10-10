@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import { Typography, TextField, Button } from "@mui/material";
+import { Typography, TextField, Button, Paper } from "@mui/material";
 import { useRouter } from "next/router";
 
 export const Header = () => {
@@ -11,7 +11,7 @@ export const Header = () => {
   }
   
   return (
-    <div className="flex flex-row z-10 fixed items-center w-full">
+    <Paper className="flex flex-row z-10 h-[60px] fixed opacity-100 items-center w-full">
       <div className="flex mx-5 mt-2 mb-4">
         <Button 
         variant="text" 
@@ -52,6 +52,6 @@ export const Header = () => {
         </Button>
       </div>
 
-    </div>
+    </Paper>
   );
 };

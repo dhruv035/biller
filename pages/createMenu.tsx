@@ -73,9 +73,9 @@ const CreateMenu: NextPage = () => {
     }
   return (
    
-<div className="flex flex-col">
+<div className="flex flex-col w-full h-screen overflow-y:scroll">
    <Header/>
-   <div className='flex flex-col mx-8 my-3 mt-20 w-full align-center items-center'>
+   <div className='flex flex-col mx-2 my-3 mt-20 w-11/12 self-center align-center items-center'>
       {Object.keys(data).length!==0&&(<Typography fontSize={30}>Your Menu</Typography>)}
       {Object.keys(data).length!==0&&(
       <Table>
@@ -102,14 +102,15 @@ const CreateMenu: NextPage = () => {
    })
       }</TableBody>
       </Table>)}
-      <div className="flex flex-col w-1/2 ">
+      <div className="flex flex-col my-3 w-full ">
    <Typography fontSize={20}>Add Items to your Custom Menu</Typography>
    <div className='flex flex-row'>
-   <TextField className="mr-4" value={item} label="Item" placeholder='Item' onChange={(e)=>setItem(e.currentTarget.value)}/>
+   <TextField className="mr-4 my-5" value={item} label="Item" placeholder='Item' onChange={(e)=>setItem(e.currentTarget.value)}/>
    <TextField 
    type="number"
    label="Price"
    sx={{
+      marginY:"1.25rem",
       maxWidth:"80px"
    }} 
    value={price} 
@@ -117,7 +118,7 @@ const CreateMenu: NextPage = () => {
    onChange={(e)=>setPrice(parseInt(e.currentTarget.value))}
    onKeyDown={(e)=>{handleEnter(e)}}
    />
-   <Button disabled={!item||!price}onClick={addItem}>Add</Button>
+   <Button className="my-5" disabled={!item||!price}onClick={addItem}>Add</Button>
    </div>
    </div>
    </div>
